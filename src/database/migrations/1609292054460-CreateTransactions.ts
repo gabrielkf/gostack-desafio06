@@ -28,9 +28,12 @@ export class CreateTransactions1609292054460
             type: 'integer',
           },
           {
+            name: 'type',
+            type: 'varchar',
+          },
+          {
             name: 'category_id',
             type: 'uuid',
-            isNullable: true,
           },
           {
             name: 'created_at',
