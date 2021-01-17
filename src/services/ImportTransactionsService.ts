@@ -48,7 +48,6 @@ export default class ImportTransactionsService {
 
       transactions.push(transaction);
     }
-    console.log(transactions);
 
     return transactions;
   }
