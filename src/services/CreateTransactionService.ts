@@ -1,11 +1,10 @@
 import { getRepository, getCustomRepository } from 'typeorm';
-
 import AppError from '../errors/AppError';
 import Transaction from '../models/Transaction';
 import Category from '../models/Category';
 import TransactionsRepository from '../repositories/TransactionsRepository';
 
-interface Request {
+export interface Request {
   title: string;
   value: number;
   type: string;
@@ -21,7 +20,7 @@ class CreateTransactionService {
   }: Request): Promise<Transaction> {
     if (type !== 'income' && type !== 'outcome')
       throw new AppError(
-        'Transaction type must be either "income" or "outcome"',
+        `Transaction type must be either "income" or "outcome"`,
       );
 
     const transactionsRepo = getCustomRepository(
@@ -29,15 +28,18 @@ class CreateTransactionService {
     );
 
     if (type === 'outcome') {
-      const { total } = await transactionsRepo.getBalance();
+      // @ts-ignore
+      const { total } = await transactionsRepo.getBalance(false);
 
-      if (total < value) throw new AppError('Insufficient funds.');
+      if (total < value)
+        throw new AppError('Insufficient funds.', 400);
     }
 
     const categoriesRepo = getRepository(Category);
     const categoryExists = await categoriesRepo.findOne({
       where: { title: category },
     });
+
     let newCategory;
     if (!categoryExists) {
       newCategory = categoriesRepo.create({
@@ -53,7 +55,7 @@ class CreateTransactionService {
       title,
       value,
       type,
-      category: newCategory,
+      category_id: newCategory,
     });
 
     await transactionsRepo.save(transaction);

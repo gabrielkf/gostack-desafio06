@@ -34,7 +34,11 @@
         "ts": "never"
       }
     ],
-    "no-console": 0
+    "no-console": 0,
+    "@typescript-eslint/ban-ts-ignore": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    "no-restricted-syntax": 0,
+    "no-await-in-loop": 0
   },
   "settings": {
     "import/resolver": {

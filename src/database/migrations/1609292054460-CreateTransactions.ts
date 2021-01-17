@@ -52,7 +52,7 @@ export class CreateTransactions1609292054460
     await queryRunner.createForeignKey(
       'transactions',
       new TableForeignKey({
-        name: 'category_fk',
+        name: 'category_id',
         referencedTableName: 'categories',
         columnNames: ['category_id'],
         referencedColumnNames: ['id'],
